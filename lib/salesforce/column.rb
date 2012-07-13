@@ -3,7 +3,7 @@ module Salesforce
     attr_accessor :name, :original_name, :createable, :updateable, :type
     
     SUPPORTED_DATE_RANGE =  Date.parse("01/01/1700")..Date.parse("12/31/4000")
-    SUPPORTED_TIME_RANGE =  Time.parse("01/01/1700")..Time.parse("12/31/4000")
+    SUPPORTED_TIME_RANGE =  Time.parse("01/01/1902")..Time.parse("12/31/2037")
 
     def initialize(field)
       self.original_name = field["name"]
