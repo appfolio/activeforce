@@ -101,6 +101,13 @@ class Salesforce::ColumnTest < ActiveSupport::TestCase
     assert_equal Date.parse("12/30/4000").to_time, Salesforce::Column.typecast(:datetime, "12/30/4000")
   end
 
+  def test_typecast__date_min
+    assert_equal nil, Salesforce::Column.typecast(:date, "12/31/1699")
+    assert_equal Date.parse("01/01/1700").to_time, Salesforce::Column.typecast(:datetime, "01/01/1700")
+    assert_equal nil, Salesforce::Column.typecast(:datetime, "12/31/1699")
+    assert_equal Date.parse("01/01/1700").to_time, Salesforce::Column.typecast(:datetime, "01/01/1700")
+  end
+
   def test_typecast__using_full_length_ids
     Salesforce::Config.instance.use_full_length_ids
     assert_equal "123456789012345", Salesforce::Column.typecast(:id, "123456789012345")
