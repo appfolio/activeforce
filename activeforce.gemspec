@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tushar Ranka"]
-  s.date = "2012-06-29"
+  s.date = "2012-07-13"
   s.description = " Activeforce provides a simple to use and extend interface to Salesforce using the REST API"
   s.email = "tusharranka@gmail.com"
   s.extra_rdoc_files = [
