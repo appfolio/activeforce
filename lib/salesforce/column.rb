@@ -2,6 +2,8 @@ module Salesforce
   class Column
     attr_accessor :name, :original_name, :createable, :updateable, :type
 
+    MAX_SUPPORTED_DATE = Date.parse("12/31/4000")
+
     def initialize(field)
       self.original_name = field["name"]
       self.name          = field["name"].gsub(/\_\_c$/, '').underscore
@@ -69,13 +71,23 @@ module Salesforce
           end
         when :date
           begin
-            Date.parse(value);
+            parsed_date = Date.parse(value)
+            if parsed_date > MAX_SUPPORTED_DATE
+              nil
+            else
+              parsed_date
+            end
           rescue
             value if value.is_a?(Date)
           end
         when :datetime
           begin
-            Time.parse(value)
+            parsed_time = Time.parse(value)
+            if parsed_time > MAX_SUPPORTED_DATE.to_time
+              nil
+            else
+              parsed_time
+            end
           rescue
             value if value.is_a?(Time)
           end
