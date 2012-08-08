@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.version = "1.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Tushar Ranka"]
-  s.date = "2012-07-13"
+  s.authors = ["Tushar Ranka", "Andrew Mutz"]
+  s.date = "2012-08-08"
   s.description = " Activeforce provides a simple to use and extend interface to Salesforce using the REST API"
-  s.email = "tusharranka@gmail.com"
+  s.email = ["tusharranka@gmail.com", "andrew.mutz@appfolio.com"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
@@ -106,7 +106,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/appfolio/activeforce"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.12"
+  s.rubygems_version = "1.8.24"
   s.summary = "A Simple gem to interact with the Salesforce REST API"
 
   if s.respond_to? :specification_version then

@@ -20,8 +20,8 @@ Jeweler::Tasks.new do |gem|
   gem.license = "MIT"
   gem.summary = %Q{A Simple gem to interact with the Salesforce REST API}
   gem.description = %Q{ Activeforce provides a simple to use and extend interface to Salesforce using the REST API}
-  gem.email = "tusharranka@gmail.com"
-  gem.authors = ["Tushar Ranka"]
+  gem.email = ["tusharranka@gmail.com", "andrew.mutz@appfolio.com"]
+  gem.authors = ["Tushar Ranka", "Andrew Mutz"]
 end
 
 Jeweler::RubygemsDotOrgTasks.new
