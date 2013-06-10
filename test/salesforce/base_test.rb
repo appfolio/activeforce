@@ -349,8 +349,9 @@ class Salesforce::BaseTest < ActiveSupport::TestCase
   
   def test_find_by_column
     setup_columns_for_original_table
-    Salesforce.connection.expects(:soql).with("SELECT Col1,Col2__c FROM OriginalTable WHERE Col2__c='value'").returns([ { "Col1" => 'col11', "Col2__c" => 'col21'}, { "Col1" => 'col21', "Col2__c" => 'col22'} ])
-    results =  Salesforce::OriginalTable.find_by_column(Salesforce::OriginalTable.columns.all.last, "value")
+    col = Salesforce::OriginalTable.columns.all.last
+    Salesforce.connection.expects(:soql).with("SELECT Col1,Col2__c FROM OriginalTable WHERE #{col.original_name}='value'").returns([ { "Col1" => 'col11', "Col2__c" => 'col21'}, { "Col1" => 'col21', "Col2__c" => 'col22'} ])
+    results =  Salesforce::OriginalTable.find_by_column(col, "value")
     assert_equal 2, results.size
     assert_equal "col11", results.first.col1
     assert_equal "col21", results.first.col2
