@@ -12,27 +12,32 @@ class Salesforce::Bulk::BatchTest < ActiveSupport::TestCase
     assert !@batch.csv.nil?
     @batch.csv.close
     content = File.read(@batch.filename)
-    assert_equal "Id,Name__c,dob__c,Car__c\n", content
-    assert_equal [ 'Id', "Name__c", "dob__c", "Car__c"], @batch.send(:csv_header)
+    assert_equal "Id,Name__c,dob__c,Car__c".split(",").sort, content.strip.split(",").sort
+    assert_equal [ 'Id', "Name__c", "dob__c", "Car__c"].sort, @batch.send(:csv_header).sort
   end
   
   def test_record__from_hash
+    @batch.expects(:ordered_values).with(anything).returns([ 'recordid', 'record name', "2008-10-14", 'record car'])
     @batch.csv.expects(:<<).with([ 'recordid', 'record name', "2008-10-14", 'record car'])
     @batch.record :id => "recordid", :name => "record name", :car => "record car", :dob => Date.parse("10/14/2008")
-    
+
+    @batch.expects(:ordered_values).with(anything).returns([ 'recordid', 'record name', "2008-10-14", 'record car'])    
     @batch.csv.expects(:<<).with([ 'recordid', 'record name', "2008-10-14", 'record car'])
     @batch.record :id => "recordid", :name => "record name", :car => "record car", :dob => "10/14/2008"
-    
+
+    @batch.expects(:ordered_values).with(anything).returns([ 'recordid', '', '', 'record car'])        
     @batch.csv.expects(:<<).with([ 'recordid', '', '', 'record car'])
     @batch.record :id => "recordid", :car => "record car"
     
+    @batch.expects(:ordered_values).with(anything).returns([ 'recordid', '', '', ''])        
     @batch.csv.expects(:<<).with([ 'recordid', '', '', ''])
     @batch.record :id => "recordid"
   end
   
   def test_record__from_object
     bulk_table = Salesforce::BulkTable.new("Id" => "btid", :name => "name", "Car__c" => 'car', :dob => "10/14/2008")
-    @batch.csv.expects(:<<).with([ 'btid', "name", "2008-10-14", "car"])
+    @batch.expects(:ordered_values).with(anything).returns(['btid', "name", "2008-10-14", "car"])
+    @batch.csv.expects(:<<).with(['btid', "name", "2008-10-14", "car"])
     @batch.record bulk_table
   end
   
