@@ -12,7 +12,7 @@ module Salesforce
       result = Connection.login    
       Config.instance.soap_endpoint_url result[:server_url]
       Config.instance.session_id        result[:session_id]
-      Config.instance.server_instance   URI.parse(result[:server_url]).host.split(".").first
+      Config.instance.server_instance   URI.parse(result[:server_url]).host[/(na|cs)\d+/]
       Config.instance.user_id           result[:user_id]
       Config.session_id
     end
