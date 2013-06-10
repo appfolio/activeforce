@@ -36,14 +36,14 @@ class Salesforce::AuthenticationTest < ActiveSupport::TestCase
   def test_generate_new_session_id__calls_connection_login
     result = {
       :session_id => "session_id",
-      :server_url => "https://cs99-api.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX",
+      :server_url => "https://cs99.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX",
       :user_id    => "user_id"
     }
 
     Salesforce.connection.expects(:login).returns(result)
 
     assert_equal "session_id", Salesforce::Authentication.generate_new_session_id
-    assert_equal "https://cs99-api.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX", Salesforce::Config.soap_endpoint_url
+    assert_equal "https://cs99.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX", Salesforce::Config.soap_endpoint_url
     assert_equal "session_id", Salesforce::Config.session_id
     assert_equal "cs99", Salesforce::Config.server_instance
     assert_equal "user_id", Salesforce::Config.user_id

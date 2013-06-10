@@ -12,7 +12,7 @@ class Salesforce::Bulk::UpdateJobTest < ActiveSupport::TestCase
     assert_equal 'update', job.operation
     assert_equal 'Parallel', job.concurrency_mode
     assert_equal 'Account', job.object
-    assert_equal 'Id,City,Address,Name,Type,State', job.send(:csv_header).join(',')
+    assert_equal ["Id","City","Address","Name","Type","State"].sort, job.send(:csv_header).sort
   end
   
   def test_initialize__with_columns
@@ -30,7 +30,7 @@ class Salesforce::Bulk::UpdateJobTest < ActiveSupport::TestCase
     assert_equal 'update', job.operation
     assert_equal 'Parallel', job.concurrency_mode
     assert_equal 'Account', job.object
-    assert_equal 'Id,City,Address,Name,Type,State', job.send(:csv_header).join(',')
+    assert_equal ["Id","City","Address","Name","Type","State"].sort, job.send(:csv_header).sort
   end
   
   def test_csv_columns__unrecognized_column
