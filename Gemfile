@@ -6,6 +6,8 @@ gem 'blockenspiel'
 gem 'rest-client'
 gem "fastercsv"
 
+gem 'american_date'
+
 group :development do
   gem 'mocha'
   gem "yard", "~> 0.6.0"

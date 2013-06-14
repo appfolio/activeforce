@@ -47,7 +47,6 @@ GEM
       rack
     i18n (0.6.0)
     jeweler (1.6.4)
-      bundler (~> 1.0)
       git (>= 1.2.5)
       rake
     mail (2.3.0)
@@ -77,7 +76,6 @@ GEM
       activerecord (= 3.1.0)
       activeresource (= 3.1.0)
       activesupport (= 3.1.0)
-      bundler (~> 1.0)
       railties (= 3.1.0)
     railties (3.1.0)
       actionpack (= 3.1.0)
@@ -118,6 +116,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  american_date
   blockenspiel
   bundler (~> 1.0)
   fastercsv
