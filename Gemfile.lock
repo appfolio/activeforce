@@ -116,7 +116,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  american_date
   blockenspiel
   bundler (~> 1.0)
   fastercsv
