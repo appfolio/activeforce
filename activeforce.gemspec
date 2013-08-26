@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tushar Ranka", "Andrew Mutz"]
-  s.date = "2012-08-08"
+  s.date = "2013-08-26"
   s.description = " Activeforce provides a simple to use and extend interface to Salesforce using the REST API"
   s.email = ["tusharranka@gmail.com", "andrew.mutz@appfolio.com"]
   s.extra_rdoc_files = [
@@ -106,7 +106,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/appfolio/activeforce"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.25"
   s.summary = "A Simple gem to interact with the Salesforce REST API"
 
   if s.respond_to? :specification_version then
@@ -114,36 +114,36 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rails>, [">= 0"])
-      s.add_runtime_dependency(%q<savon>, [">= 0"])
+      s.add_runtime_dependency(%q<savon>, ["~> 1.0"])
       s.add_runtime_dependency(%q<blockenspiel>, [">= 0"])
       s.add_runtime_dependency(%q<rest-client>, [">= 0"])
       s.add_runtime_dependency(%q<fastercsv>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_development_dependency(%q<rcov>, [">= 0"])
     else
       s.add_dependency(%q<rails>, [">= 0"])
-      s.add_dependency(%q<savon>, [">= 0"])
+      s.add_dependency(%q<savon>, ["~> 1.0"])
       s.add_dependency(%q<blockenspiel>, [">= 0"])
       s.add_dependency(%q<rest-client>, [">= 0"])
       s.add_dependency(%q<fastercsv>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+      s.add_dependency(%q<bundler>, ["~> 1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
     s.add_dependency(%q<rails>, [">= 0"])
-    s.add_dependency(%q<savon>, [">= 0"])
+    s.add_dependency(%q<savon>, ["~> 1.0"])
     s.add_dependency(%q<blockenspiel>, [">= 0"])
     s.add_dependency(%q<rest-client>, [">= 0"])
     s.add_dependency(%q<fastercsv>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
+    s.add_dependency(%q<bundler>, ["~> 1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<rcov>, [">= 0"])
   end
