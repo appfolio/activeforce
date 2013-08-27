@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "activeforce"
-  s.version = "1.7.1"
+  s.version = "1.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tushar Ranka", "Andrew Mutz"]
-  s.date = "2013-08-26"
+  s.date = "2013-08-27"
   s.description = " Activeforce provides a simple to use and extend interface to Salesforce using the REST API"
   s.email = ["tusharranka@gmail.com", "andrew.mutz@appfolio.com"]
   s.extra_rdoc_files = [
@@ -72,6 +72,7 @@ Gem::Specification.new do |s|
     "app/models/salesforce/user_role.rb",
     "app/models/salesforce/vote.rb",
     "lib/activeforce.rb",
+    "lib/ruby_187_range_extension.rb",
     "lib/salesforce/attributes.rb",
     "lib/salesforce/authentication.rb",
     "lib/salesforce/base.rb",
@@ -122,7 +123,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_development_dependency(%q<bundler>, ["~> 1.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
     else
       s.add_dependency(%q<rails>, [">= 0"])
       s.add_dependency(%q<savon>, ["~> 1.0"])
@@ -133,7 +133,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<yard>, ["~> 0.6.0"])
       s.add_dependency(%q<bundler>, ["~> 1.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
-      s.add_dependency(%q<rcov>, [">= 0"])
     end
   else
     s.add_dependency(%q<rails>, [">= 0"])
@@ -145,7 +144,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<yard>, ["~> 0.6.0"])
     s.add_dependency(%q<bundler>, ["~> 1.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
-    s.add_dependency(%q<rcov>, [">= 0"])
   end
 end
 

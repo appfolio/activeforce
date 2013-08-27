@@ -258,7 +258,7 @@ class Salesforce::BaseTest < ActiveSupport::TestCase
   def test_find_all__with_conditions
     setup_columns_for_original_table
     Salesforce.connection.expects(:soql).with("SELECT Col1,Col2__c FROM OriginalTable WHERE Col2__c >= 2011-11-11").returns([ { "Col2__c" => 'col21'}, { "Col2__c" => 'col22'}])
-    results =  Salesforce::OriginalTable.find(:all, :conditions => ":col2 >= :date", :date => Date.parse("11/11/2011"))
+    results =  Salesforce::OriginalTable.find(:all, :conditions => ":col2 >= :date", :date => Date.parse("2011-11-11"))
     assert_equal 2, results.size
     assert_equal "col21", results.first.col2
     assert_equal "col22", results.last.col2
@@ -282,10 +282,10 @@ class Salesforce::BaseTest < ActiveSupport::TestCase
     assert_equal "SELECT ACol5__c FROM OriginalTable WHERE Col1 > Col2__c", Salesforce::OriginalTable.query_string(:select => :a_col5, :conditions => ":col1 > :col2")
     assert_equal "SELECT ACol5__c FROM OriginalTable WHERE Col1 > Col2__c", Salesforce::OriginalTable.query_string(:select => :a_col5, :conditions => ":col1 > :col2")
     assert_equal "SELECT ACol5__c FROM OriginalTable WHERE Col1 > 2011-08-01", Salesforce::OriginalTable.query_string(:select => :a_col5, :conditions => ":col1 > :date", 
-                                                                                :date => Date.parse('08/01/2011') )
+                                                                                :date => Date.parse('2011-08-01') )
     assert_equal "SELECT ACol5__c FROM OriginalTable WHERE Col1 > 2011-08-01 AND ACol5__c = 2011-08-01T09:30:00-07:00", 
             Salesforce::OriginalTable.query_string(:select => :a_col5, 
-                      :conditions => ":col1 > :date AND :a_col5 = :time", :date => Date.parse('08/01/2011'), :time => Time.zone.parse("08/01/2011 09:30 AM"))
+                      :conditions => ":col1 > :date AND :a_col5 = :time", :date => Date.parse('2011-08-01'), :time => Time.zone.parse("2011-08-01 09:30 AM"))
     
     assert_equal "SELECT ACol5__c FROM OriginalTable WHERE Col1 = TRUE AND Col2__c = FALSE AND Col3__c = NULL", 
             Salesforce::OriginalTable.query_string(:select => :a_col5, 
@@ -303,7 +303,7 @@ class Salesforce::BaseTest < ActiveSupport::TestCase
             
     assert_equal "SELECT ACol5__c FROM OriginalTable WHERE Col1 = 'string' GROUP BY Col2__c HAVING Col3__c > 2009-08-01 ORDER BY Col1 ASC, Col3__c DESC", 
             Salesforce::OriginalTable.query_string(:select => :a_col5, :conditions => ":col1 = :string", :group_by => :col2, :having => ":col3 > :date",
-            :string => 'string', :date => Date.parse('08/01/2009'), :order => ":col1 ASC, :col3 DESC")
+            :string => 'string', :date => Date.parse('2009-08-01'), :order => ":col1 ASC, :col3 DESC")
             
     
   

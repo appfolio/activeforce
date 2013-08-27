@@ -2,8 +2,8 @@ module Salesforce
   class Column
     attr_accessor :name, :original_name, :createable, :updateable, :type
     
-    SUPPORTED_DATE_RANGE =  Date.parse("01/01/1700")..Date.parse("12/31/4000")
-    SUPPORTED_TIME_RANGE =  Time.parse("01/01/1902")..Time.parse("12/31/2037")
+    SUPPORTED_DATE_RANGE =  Date.parse("1700-01-01")..Date.parse("4000-12-31")
+    SUPPORTED_TIME_RANGE =  Time.parse("1902-01-01 00:00:00 UTC")..Time.parse("2037-12-31 00:00:00 UTC")
 
     def initialize(field)
       self.original_name = field["name"]
@@ -73,22 +73,26 @@ module Salesforce
         when :date
           begin
             parsed_date = Date.parse(value)
-            if SUPPORTED_DATE_RANGE.include?(parsed_date)
+            if SUPPORTED_DATE_RANGE.cover?(parsed_date)
               parsed_date
             else
               nil
             end
+          rescue ArgumentError
+            nil
           rescue
             value if value.is_a?(Date)
           end
         when :datetime
           begin
             parsed_time = Time.parse(value)
-            if SUPPORTED_TIME_RANGE.include?(parsed_time)
+            if SUPPORTED_TIME_RANGE.cover?(parsed_time)
               parsed_time
             else
               nil
             end
+          rescue ArgumentError
+            Time.now
           rescue
             value if value.is_a?(Time)
           end

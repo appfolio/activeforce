@@ -1,3 +1,7 @@
+require 'csv'
+
+CSVLib = RUBY_VERSION.start_with?("1.8") ? FasterCSV : CSV
+
 module Salesforce
   module Bulk
     class Batch
@@ -11,7 +15,7 @@ module Salesforce
       def initialize(job)
         self.job = job
         self.filename = temporary_csv_file
-        self.csv = FasterCSV.open(self.filename, 'w+')
+        self.csv = CSVLib.open(self.filename, 'w+')
         self.csv << csv_header
       end
             
@@ -63,7 +67,7 @@ module Salesforce
       private
       
       def parse_csv_results(results)
-         parsed_results = FasterCSV.parse(results)
+         parsed_results = CSVLib.parse(results)
          parsed_results[1..-1].map { |row| Result.new(*row) }
       end
       
