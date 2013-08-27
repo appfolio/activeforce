@@ -385,7 +385,7 @@ class Salesforce::BaseTest < ActiveSupport::TestCase
     end
   end
   
-  def test_with_invalid_column_handling__throws_invalid_fields_error__more_than_once
+  def test_with_invalid_column_handling__throws_runtime_error__more_than_once
     error = RuntimeError.new
     Salesforce::OriginalTable.expects(:clear_cached_columns!).never
     

@@ -16,7 +16,7 @@ class Salesforce.connection::AsyncTest < ActiveSupport::TestCase
     assert_equal({'result' => 'foo'}, Salesforce.connection.async_post('path', :body, :format => :json))
   end
   
-  def test_async_post__400_error_json
+  def test_async_post__404_error_json
     Salesforce::Authentication.stubs(:session_id).returns('session_id')
     error = RestClient::BadRequest.new
     error.stubs(:http_body).returns("[{\"message\":\"someproblem\",\"errorCode\":\"MALFORMED_QUERY\"}]")
