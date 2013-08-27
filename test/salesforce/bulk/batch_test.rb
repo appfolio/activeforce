@@ -19,7 +19,7 @@ class Salesforce::Bulk::BatchTest < ActiveSupport::TestCase
   def test_record__from_hash
     @batch.expects(:ordered_values).with(anything).returns([ 'recordid', 'record name', "2008-10-14", 'record car'])
     @batch.csv.expects(:<<).with([ 'recordid', 'record name', "2008-10-14", 'record car'])
-    @batch.record :id => "recordid", :name => "record name", :car => "record car", :dob => Date.parse("10/14/2008")
+    @batch.record :id => "recordid", :name => "record name", :car => "record car", :dob => Date.parse("2008-10-14")
 
     @batch.expects(:ordered_values).with(anything).returns([ 'recordid', 'record name', "2008-10-14", 'record car'])    
     @batch.csv.expects(:<<).with([ 'recordid', 'record name', "2008-10-14", 'record car'])
