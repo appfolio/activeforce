@@ -14,6 +14,8 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'activeforce'
 Dir.glob(File.expand_path('../../app/models/salesforce/**.rb', __FILE__)).each { |file| require(file) }
 
+require 'mocha/setup'
+
 class Test::Unit::TestCase
 end
 
