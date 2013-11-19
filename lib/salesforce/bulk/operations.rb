@@ -19,6 +19,14 @@ module Salesforce
             job.process!
           end
         end
+        
+        def bulk_upsert(external_id, columns = [], &block)
+          UpsertJob.new(self, external_id, columns).tap do |job|
+            Blockenspiel.invoke(block, job)
+            job.process!
+          end
+        end
+        
       end
     end
   end
