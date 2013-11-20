@@ -17,6 +17,7 @@ require 'salesforce/bulk/operations'
 require 'salesforce/base'
 require 'salesforce/bulk/job'
 require 'salesforce/bulk/update_job'
+require 'salesforce/bulk/upsert_job'
 require 'salesforce/bulk/batch'
 
 module Salesforce
