@@ -57,6 +57,8 @@ module Salesforce
           'FALSE'
         when Time;
           obj.xmlschema
+        when NilClass;
+          '#N/A'
         else
           "#{obj.to_s}"
       end

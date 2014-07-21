@@ -59,7 +59,7 @@ class Salesforce::ColumnTest < ActiveSupport::TestCase
     assert_equal "string", Salesforce::Column.to_csv_value('string') 
     assert_equal "TRUE", Salesforce::Column.to_csv_value(true) 
     assert_equal "FALSE", Salesforce::Column.to_csv_value(false) 
-    assert_equal "", Salesforce::Column.to_csv_value(nil) 
+    assert_equal '#N/A', Salesforce::Column.to_csv_value(nil) 
     assert_equal "2012-01-02", Salesforce::Column.to_csv_value(Date.parse('2012-01-02')) 
     assert_equal "2012-01-02T18:40:00-08:00", Salesforce::Column.to_csv_value(Time.zone.parse('2012-01-02 06:40PM')) 
     assert_equal "1", Salesforce::Column.to_csv_value(1) 
