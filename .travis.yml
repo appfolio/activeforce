@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+  - 2.1.4
+  - 2.0.0
+  - 1.9.3
+  - ruby-head
+
+sudo: false
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
