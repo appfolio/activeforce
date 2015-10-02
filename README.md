@@ -1,5 +1,6 @@
 # ActiveForce
 
+[![Gem Version](https://badge.fury.io/rb/activeforce.svg)](http://badge.fury.io/rb/activeforce)
 [![Build Status](https://travis-ci.org/appfolio/activeforce.svg?branch=master)](https://travis-ci.org/appfolio/activeforce)
 
 Activeforce provides a clean ActiveRecord-like interface to the SalesForce.com REST API.
