@@ -7,7 +7,7 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
-require 'test/unit'
+require 'minitest/autorun'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
@@ -16,8 +16,6 @@ Dir.glob(File.expand_path('../../app/models/salesforce/**.rb', __FILE__)).each {
 
 require 'mocha/setup'
 
-class Test::Unit::TestCase
-end
 
 Time.zone = 'America/Los_Angeles'
 

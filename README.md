@@ -1,5 +1,8 @@
 # ActiveForce
 
+[![Gem Version](https://badge.fury.io/rb/activeforce.svg)](http://badge.fury.io/rb/activeforce)
+[![Build Status](https://travis-ci.org/appfolio/activeforce.svg?branch=master)](https://travis-ci.org/appfolio/activeforce)
+
 Activeforce provides a clean ActiveRecord-like interface to the SalesForce.com REST API.
 
 * Detects the schema of the SalesForce Objects on the fly, so that you can interact with the familiar ActiveRecord style attribute accessor methods.

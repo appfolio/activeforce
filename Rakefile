@@ -11,6 +11,7 @@ rescue Bundler::BundlerError => e
 end
 
 require 'rake'
+require 'appraisal'
 
 require 'bundler/gem_tasks'
 
@@ -22,6 +23,3 @@ Rake::TestTask.new(:test) do |test|
 end
 
 task :default => :test
-
-require 'yard'
-YARD::Rake::YardocTask.new
