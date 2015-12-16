@@ -5,6 +5,8 @@
 
 Activeforce provides a clean ActiveRecord-like interface to the SalesForce.com REST API.
 
+Activeforce does not provide any integration with any Appfolio products.
+
 * Detects the schema of the SalesForce Objects on the fly, so that you can interact with the familiar ActiveRecord style attribute accessor methods.
 * Provides full access to all methods provided to the SQL-like Salesforce Object Query Language (SOQL).
 * Integrates with Salesforce.com REST-based BULK API.
