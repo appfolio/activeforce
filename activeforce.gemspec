@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.licenses         = ["MIT"]
   s.require_paths    = ["lib"]
   s.rubygems_version = "2.0.3"
+  s.required_ruby_version = ">= 2.0"
   s.summary          = "A Simple gem to interact with the Salesforce REST API"
 
   s.add_dependency(%q<rails>, [">= 4.0", "< 5.0"])
