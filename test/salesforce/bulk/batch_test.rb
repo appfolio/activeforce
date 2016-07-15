@@ -78,7 +78,7 @@ class Salesforce::Bulk::BatchTest < ActiveSupport::TestCase
   end
   
   def clear_file
-    FileUtils.rm_rf(@batch.filename) if @batch.filename.present?
+    FileUtils.rm_rf(@batch.filename) if @batch.present? && @batch.filename.present?
   end
 end
   
