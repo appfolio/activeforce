@@ -39,17 +39,17 @@ class Salesforce::ConfigTest < ActiveSupport::TestCase
   def test_config__on_login_failure
     assert_nil Salesforce::Config.on_login_failure
     
-    @my_stuff = 0
+    my_stuff = 0
     
     Salesforce.configure do
-      on_login_failure { @my_stuff = @my_stuff + 1 }
+      on_login_failure { my_stuff = my_stuff + 1 }
     end
     
     Salesforce::Config.on_login_failure
-    assert_equal 1, @my_stuff
+    assert_equal 1, my_stuff
     Salesforce::Config.on_login_failure
     
-    assert_equal 2, @my_stuff
+    assert_equal 2, my_stuff
   end
   
   def test_config__specific_api_version

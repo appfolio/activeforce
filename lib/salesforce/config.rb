@@ -51,7 +51,7 @@ module Salesforce
       if val
         @api_version = val.to_f.to_s
       else
-        @api_version || DEFAULT_API_VERSION
+        @api_version ||= DEFAULT_API_VERSION
       end
     end
 
