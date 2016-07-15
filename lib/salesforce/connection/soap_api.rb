@@ -31,19 +31,26 @@ module Salesforce
         protected
         
         def invoke_soap(method_name, options)
-          options[:namespace]    ||= Config.soap_enterprise_namespace
-          options[:endpoint_url] ||= Config.soap_endpoint_url
-          
-          result = soap_client(options).request :wsdl, method_name do |soap|
-            soap.body = options[:body]
+          client_options = {
+            namespace: options[:namespace] ||= Config.soap_enterprise_namespace,
+            endpoint: options[:endpoint_url] ||= Config.soap_endpoint_url
+          }
 
-            unless method_name.to_sym == :login
-              soap.namespaces["xmlns:ns1"] = Config.soap_enterprise_namespace
-              soap.header = { "ns1:SessionHeader" => { "ns1:sessionId" => Config.session_id }}
-            end
+          additional_call_options = {}
+          unless method_name.to_sym == :login
+            additional_call_options[:soap_header] = {
+              "ns1:SessionHeader" => { "ns1:sessionId" => Config.session_id }
+            }
+
+            client_options[:namespaces] = {
+              "xmlns:ns1" => Config.soap_enterprise_namespace,
+            }
           end
+
+          client = soap_client(client_options)
+          result = client.call(method_name.to_sym, { message: options[:body] }.merge(additional_call_options))
           
-          result.to_hash[:"#{method_name.to_s.underscore}_response"][:result].tap do |result|
+          result.body[:"#{method_name.to_s.underscore}_response"][:result].tap do |result|
             unless result[:success] || method_name.to_sym == :login
               raise_error(method_name, options, result[:errors])
             end
@@ -51,10 +58,7 @@ module Salesforce
         end
         
         def soap_client(options)
-          Savon::Client.new do
-            wsdl.namespace = options[:namespace]
-            wsdl.endpoint  = options[:endpoint_url]
-          end          
+          Savon.client(options.merge(log: false))
         end
         
         def raise_error(method_name, options, errors)
