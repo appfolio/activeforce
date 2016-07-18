@@ -17,7 +17,7 @@ module Salesforce
       begin
         Salesforce::Authentication.session_id
         block.call
-      rescue RestClient::Request::Unauthorized, Savon::SOAP::Fault => e
+      rescue RestClient::Request::Unauthorized, Savon::SOAPFault => e
         if count < 1 && (e.message.downcase.include?("unauthorized") || e.message.downcase.include?("invalid_login"))
           count += 1
           Salesforce::Config.on_login_failure

@@ -57,7 +57,7 @@ module Salesforce
       end
       
       def temporary_csv_file
-        if Object.const_defined?(:Rails)
+        if Object.const_defined?(:Rails) && Rails.root.present?
           Rails.root.join('tmp', 'files', "#{ Time.now.to_i}#{rand(10000)}.csv")
         else
           File.join("/tmp/#{ Time.now.to_i}#{rand(10000)}.csv")

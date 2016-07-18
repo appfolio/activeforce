@@ -36,6 +36,7 @@ class Salesforce::Connection::SoapApiTest < ActiveSupport::TestCase
 
   def test_invoke_soap__not_login__success
     options = {
+      :endpoint_url => Salesforce::Config.login_url,
       :body => :soap_body,
       :other_option => 'foo'
     }
@@ -50,29 +51,31 @@ class Salesforce::Connection::SoapApiTest < ActiveSupport::TestCase
     }
     
     expected_result = result[:not_login_response][:result]
-    
-    soap_client_mock = mock
-    Salesforce.connection.expects(:soap_client).with(options).returns(soap_client_mock)
+
+    # stub savon
+    stub_response = stub(:http => stub(:code => 200, :headers => {}, :cookies => []), :body => result)
+    stub_response.stubs(:kind_of?).returns(true)
+
+    Savon::Operation.any_instance.stubs(:create_response).returns(stub_response)
+
+    HTTPI.stubs(:post).with do |request, _|
+      assert_includes request.body, "xmlns:ns1=\"soap:enterprise:namespace\""
+      xml_doc = Nokogiri::XML(request.body)
+      assert_equal 'soap_body', xml_doc.xpath('//wsdl:notLogin/text()').to_s
+      assert_equal 'boyahh_session_id', xml_doc.xpath('//env:Header/ns1:SessionHeader/ns1:sessionId/text()').to_s
+      assert_equal '"notLogin"', request.headers['SOAPAction']
+      assert_equal Salesforce::Config.login_url, request.url.to_s
+    end.returns(stub_response)
 
     Salesforce::Config.stubs(:session_id).returns('boyahh_session_id')
     Salesforce::Config.stubs(:soap_enterprise_namespace).returns('soap:enterprise:namespace')
-
-    soap_mock = mock
-    soap_mock.expects(:body=).with(:soap_body)
-    soap_mock.expects(:header=).with({ "ns1:SessionHeader" => { "ns1:sessionId" => 'boyahh_session_id' }})
-    
-    
-    namespaces_mock = mock
-    namespaces_mock.expects(:[]=).with("xmlns:ns1", 'soap:enterprise:namespace')
-    soap_mock.expects(:namespaces).returns(namespaces_mock)
-    
-    soap_client_mock.expects(:request).with(:wsdl, :notLogin).yields(soap_mock).returns(mock(:to_hash => result))
     
     assert_equal expected_result, Salesforce.connection.send(:invoke_soap, :notLogin, options)    
   end
 
   def test_invoke_soap__not_login__not_success
     options = {
+      :endpoint_url => Salesforce::Config.login_url,
       :body => :soap_body,
       :other_option => 'foo'
     }
@@ -85,23 +88,24 @@ class Salesforce::Connection::SoapApiTest < ActiveSupport::TestCase
         }
       }
     }
-    
-    soap_client_mock = mock
-    Salesforce.connection.expects(:soap_client).with(options).returns(soap_client_mock)
+
+    # stub savon
+    stub_response = stub(:http => stub(:code => 200, :headers => {}, :cookies => []), :body => result)
+    stub_response.stubs(:kind_of?).returns(true)
+
+    Savon::Operation.any_instance.stubs(:create_response).returns(stub_response)
+
+    HTTPI.stubs(:post).with do |request, _|
+      assert_includes request.body, "xmlns:ns1=\"soap:enterprise:namespace\""
+      xml_doc = Nokogiri::XML(request.body)
+      assert_equal 'soap_body', xml_doc.xpath('//wsdl:notLogin/text()').to_s
+      assert_equal 'boyahh_session_id', xml_doc.xpath('//env:Header/ns1:SessionHeader/ns1:sessionId/text()').to_s
+      assert_equal '"notLogin"', request.headers['SOAPAction']
+      assert_equal Salesforce::Config.login_url, request.url.to_s
+    end.returns(stub_response)
 
     Salesforce::Config.stubs(:session_id).returns('boyahh_session_id')
     Salesforce::Config.stubs(:soap_enterprise_namespace).returns('soap:enterprise:namespace')
-
-    soap_mock = mock
-    soap_mock.expects(:body=).with(:soap_body)
-    soap_mock.expects(:header=).with({ "ns1:SessionHeader" => { "ns1:sessionId" => 'boyahh_session_id' }})
-    
-    
-    namespaces_mock = mock
-    namespaces_mock.expects(:[]=).with("xmlns:ns1", 'soap:enterprise:namespace')
-    soap_mock.expects(:namespaces).returns(namespaces_mock)
-    
-    soap_client_mock.expects(:request).with(:wsdl, :notLogin).yields(soap_mock).returns(mock(:to_hash => result))
     
     assert_raises Salesforce::Connection::SoapApi::Error do
       Salesforce.connection.send(:invoke_soap, :notLogin, options)
@@ -110,6 +114,7 @@ class Salesforce::Connection::SoapApiTest < ActiveSupport::TestCase
 
   def test_invoke_soap__login
     options = {
+      :endpoint_url => Salesforce::Config.login_url,
       :body => :soap_body,
       :other_option => 'foo'
     }
@@ -123,13 +128,21 @@ class Salesforce::Connection::SoapApiTest < ActiveSupport::TestCase
     }
     
     expected_result = result[:login_response][:result]
-    
-    soap_client_mock = mock
-    Salesforce.connection.expects(:soap_client).with(options).returns(soap_client_mock)
 
-    soap_mock = mock
-    soap_mock.expects(:body=).with(:soap_body)
-    soap_client_mock.expects(:request).with(:wsdl, :login).yields(soap_mock).returns(mock(:to_hash => result))
+    stub_response = stub(:http => stub(:code => 200, :headers => {}, :cookies => []), :body => result)
+    stub_response.stubs(:kind_of?).returns(true)
+
+    Savon::Operation.any_instance.stubs(:create_response).returns(stub_response)
+
+    HTTPI.stubs(:post).with do |request, _|
+      xml_doc = Nokogiri::XML(request.body)
+      assert_equal 'soap_body', xml_doc.xpath('//wsdl:login/text()').to_s
+      assert_equal '"login"', request.headers['SOAPAction']
+      assert_equal Salesforce::Config.login_url, request.url.to_s
+    end.returns(stub_response)
+
+    Salesforce::Config.stubs(:session_id).returns('boyahh_session_id')
+    Salesforce::Config.stubs(:soap_enterprise_namespace).returns('soap:enterprise:namespace')
     
     assert_equal expected_result, Salesforce.connection.send(:invoke_soap, :login, options)
   end
@@ -137,12 +150,12 @@ class Salesforce::Connection::SoapApiTest < ActiveSupport::TestCase
   def test_soap_client
     options = {
       :namespace => 'my:name:space',
-      :endpoint_url => 'https://my.endpoint.url.com'
+      :endpoint => 'https://my.endpoint.url.com'
     }
     
     client = Salesforce.connection.send(:soap_client, options)
-    assert_equal 'https://my.endpoint.url.com', client.wsdl.endpoint
-    assert_equal 'my:name:space', client.wsdl.namespace
+    assert_equal 'https://my.endpoint.url.com', client.globals[:endpoint]
+    assert_equal 'my:name:space', client.globals[:namespace]
   end
 
 end

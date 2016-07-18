@@ -55,17 +55,17 @@ class Salesforce::ConnectionTest < ActiveSupport::TestCase
   end
   
   def test_as_logged_in_user__invalid_username_password__recovers
-    @on_login_failure_called = false
+    on_login_failure_called = false
 
     Salesforce.configure do 
-      on_login_failure { @on_login_failure_called = true }
+      on_login_failure { on_login_failure_called = true }
     end
     
     xml = <<-XML
     <?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><soapenv:Fault xmlns:fns="http://fault.api.zuora.com/"><faultcode>sf:INVALID_LOGIN</faultcode><faultstring>INVALID_LOGIN: Invalid username, password, security token; or user locked out.</faultstring><detail><fns:LoginFault><fns:FaultCode>INVALID_LOGIN</fns:FaultCode><fns:FaultMessage>Invalid username, password, security token; or user locked out.</fns:FaultMessage></fns:LoginFault></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
     XML
 
-    error = Savon::SOAP::Fault.new(stub(:body => xml))
+    error = Savon::SOAPFault.new(stub(:body => xml), Nori.new,  xml)
     
     flag = nil
     Salesforce::Authentication.expects(:session_id).twice
@@ -79,33 +79,33 @@ class Salesforce::ConnectionTest < ActiveSupport::TestCase
     end
     
     assert_equal :results, results
-    assert @on_login_failure_called, "Salesforce::Config.on_login_failure was not called upon login failure"
+    assert on_login_failure_called, "Salesforce::Config.on_login_failure was not called upon login failure"
   end
   
   def test_as_logged_in_user__invalid_username_password__doesnt_recover
-    @on_login_failure_called = 0
+    on_login_failure_called = 0
 
     Salesforce.configure do 
-      on_login_failure { @on_login_failure_called += 1 }
+      on_login_failure { on_login_failure_called += 1 }
     end
     
     xml = <<-XML
     <?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><soapenv:Fault xmlns:fns="http://fault.api.zuora.com/"><faultcode>sf:INVALID_LOGIN</faultcode><faultstring>INVALID_LOGIN: Invalid username, password, security token; or user locked out.</faultstring><detail><fns:LoginFault><fns:FaultCode>INVALID_LOGIN</fns:FaultCode><fns:FaultMessage>Invalid username, password, security token; or user locked out.</fns:FaultMessage></fns:LoginFault></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
     XML
 
-    error = Savon::SOAP::Fault.new(stub(:body => xml))
+    error = Savon::SOAPFault.new(stub(:body => xml), Nori.new, xml)
     
     flag = nil
     Salesforce::Authentication.expects(:session_id).twice
     Salesforce::Authentication.expects(:logout)
     
-    assert_raises Savon::SOAP::Fault do
+    assert_raises Savon::SOAPFault do
       Salesforce.connection.as_logged_in_user do
         raise error
       end
     end
-    
-    assert_equal 1, @on_login_failure_called, "Salesforce::Config.on_login_failure was not called upon login failure"
+
+    assert_equal 1, on_login_failure_called, "Salesforce::Config.on_login_failure was not called upon login failure"
   end
   
   def test_as_logged_in_user__invalid_username_password__recovers__no_on_login_failure_hook
@@ -113,7 +113,7 @@ class Salesforce::ConnectionTest < ActiveSupport::TestCase
     <?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Body><soapenv:Fault xmlns:fns="http://fault.api.zuora.com/"><faultcode>sf:INVALID_LOGIN</faultcode><faultstring>INVALID_LOGIN: Invalid username, password, security token; or user locked out.</faultstring><detail><fns:LoginFault><fns:FaultCode>INVALID_LOGIN</fns:FaultCode><fns:FaultMessage>Invalid username, password, security token; or user locked out.</fns:FaultMessage></fns:LoginFault></detail></soapenv:Fault></soapenv:Body></soapenv:Envelope>
     XML
 
-    error = Savon::SOAP::Fault.new(stub(:body => xml))
+    error = Savon::SOAPFault.new(stub(:body => xml), Nori.new, xml)
     
     flag = nil
     Salesforce::Authentication.expects(:session_id).twice
