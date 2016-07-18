@@ -1,3 +1,3 @@
 module Activeforce
-  VERSION = '1.9.1'.freeze
+  VERSION = '2.0.0'.freeze
 end
