@@ -26,6 +26,5 @@ Gem::Specification.new do |s|
   s.add_dependency(%q<savon>, ["~> 2.11"])
   s.add_dependency(%q<blockenspiel>, [">= 0"])
   s.add_dependency(%q<rest-client>, [">= 0", '< 2.0'])
-  s.add_dependency(%q<fastercsv>, [">= 0"])
 end
 
