@@ -46,6 +46,24 @@ class Salesforce::AuthenticationTest < ActiveSupport::TestCase
     assert_equal "https://cs99.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX", Salesforce::Config.soap_endpoint_url
     assert_equal "session_id", Salesforce::Config.session_id
     assert_equal "cs99", Salesforce::Config.server_instance
+    assert_equal "salesforce.com", Salesforce::Config.server_domain
+    assert_equal "user_id", Salesforce::Config.user_id
+  end
+
+  def test_generate_new_session_id__calls_connection_login__my_domain
+    result = {
+      :session_id => "session_id",
+      :server_url => "https://awesome-2000.my.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX",
+      :user_id    => "user_id"
+    }
+
+    Salesforce.connection.expects(:login).returns(result)
+
+    assert_equal "session_id", Salesforce::Authentication.generate_new_session_id
+    assert_equal "https://awesome-2000.my.salesforce.com/services/Soap/c/22.0/00DQ00000001LRX", Salesforce::Config.soap_endpoint_url
+    assert_equal "session_id", Salesforce::Config.session_id
+    assert_equal "awesome-2000", Salesforce::Config.server_instance
+    assert_equal "my.salesforce.com", Salesforce::Config.server_domain
     assert_equal "user_id", Salesforce::Config.user_id
   end
   
