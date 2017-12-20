@@ -112,6 +112,9 @@ class Salesforce::ConfigTest < ActiveSupport::TestCase
     
     config.server_instance "na99"
     assert_equal "na99", Salesforce::Config.server_instance
+
+    config.server_domain "something.salesforce.com"
+    assert_equal "something.salesforce.com", Salesforce::Config.server_domain
     
     config.user_id "user_id"
     assert_equal "user_id", Salesforce::Config.user_id
@@ -121,9 +124,10 @@ class Salesforce::ConfigTest < ActiveSupport::TestCase
   def test_server_url__and_server_host
     config = Salesforce::Config.instance
     config.server_instance "sa2"
+    config.server_domain "something.salesforce.com"
     config.api_version 99
-    assert_equal "https://sa2.salesforce.com/services/data/v99.0", Salesforce::Config.server_url
-    assert_equal "https://sa2.salesforce.com", Salesforce::Config.server_host
+    assert_equal "https://sa2.something.salesforce.com/services/data/v99.0", Salesforce::Config.server_url
+    assert_equal "https://sa2.something.salesforce.com", Salesforce::Config.server_host
   end
   
   def test_configured
