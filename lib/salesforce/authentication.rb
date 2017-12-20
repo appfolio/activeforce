@@ -12,7 +12,12 @@ module Salesforce
       result = Connection.login    
       Config.instance.soap_endpoint_url result[:server_url]
       Config.instance.session_id        result[:session_id]
-      Config.instance.server_instance   URI.parse(result[:server_url]).host[/(na|cs)\d+/]
+
+      host = URI.parse(result[:server_url]).host
+      host_match = host.match(/(?<instance>[a-z0-9\-]+)\.(?<domain>(?:my\.)?salesforce\.com)/)
+
+      Config.instance.server_instance   host_match[:instance]
+      Config.instance.server_domain     host_match[:domain]
       Config.instance.user_id           result[:user_id]
       Config.session_id
     end
