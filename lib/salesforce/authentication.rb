@@ -14,7 +14,7 @@ module Salesforce
       Config.instance.session_id        result[:session_id]
 
       host = URI.parse(result[:server_url]).host
-      host_match = host.match(/(?<instance>[a-z0-9\-]+)\.(?<domain>(?:my\.)?salesforce\.com)/)
+      host_match = host.match(/(?<instance>[a-z0-9\-]+(?:\.[a-z]+\d+)?)\.(?<domain>(?:my\.)?salesforce\.com)/)
 
       Config.instance.server_instance   host_match[:instance]
       Config.instance.server_domain     host_match[:domain]
