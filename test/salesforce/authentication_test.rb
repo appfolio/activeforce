@@ -10,7 +10,7 @@ class Salesforce::AuthenticationTest < ActiveSupport::TestCase
     Salesforce::Config.instance.session_id "existingsessionid"
     assert_equal "existingsessionid", Salesforce::Authentication.session_id
   end
-  
+
   def test_session_id__doesnotexist
     Salesforce.configure do
       username "username"
@@ -19,20 +19,20 @@ class Salesforce::AuthenticationTest < ActiveSupport::TestCase
     Salesforce::Authentication.expects(:generate_new_session_id).returns("new_session_id")
     assert_equal "new_session_id", Salesforce::Authentication.session_id
   end
-  
+
   def test_session_id__credentials_missing
     Salesforce::Authentication.expects(:generate_new_session_id).never
     assert_raises Salesforce::InvalidCredentials do
       Salesforce::Authentication.session_id
     end
   end
-  
+
   def test_logout
     Salesforce::Config.instance.session_id = "session_id"
     Salesforce::Authentication.logout
-    assert_equal nil, Salesforce::Config.session_id
+    assert_nil Salesforce::Config.session_id
   end
-    
+
   def test_generate_new_session_id__calls_connection_login
     result = {
       :session_id => "session_id",
@@ -83,5 +83,5 @@ class Salesforce::AuthenticationTest < ActiveSupport::TestCase
     assert_equal "my.salesforce.com", Salesforce::Config.server_domain
     assert_equal "user_id", Salesforce::Config.user_id
   end
-  
+
 end
