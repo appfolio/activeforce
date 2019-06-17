@@ -49,7 +49,7 @@ class Salesforce::ColumnTest < ActiveSupport::TestCase
     assert_equal "2012-01-02T18:40:00-08:00", Salesforce::Column.to_soql_value(Time.zone.parse('2012-01-02 06:40PM'))
     assert_equal "1", Salesforce::Column.to_soql_value(1)
     assert_equal "1.0", Salesforce::Column.to_soql_value(1.0)
-    assert_equal "1.04", Salesforce::Column.to_soql_value(BigDecimal.new("1.04"))
+    assert_equal "1.04", Salesforce::Column.to_soql_value(BigDecimal("1.04"))
     assert_equal "'col'", Salesforce::Column.to_soql_value(:col)
     assert_equal "('string1','string2','string3')", Salesforce::Column.to_soql_value(['string1','string2','string3'])
     assert_equal "('string1',1,2012-01-02)", Salesforce::Column.to_soql_value(['string1',1,Date.parse("2012-01-02")])
@@ -64,7 +64,7 @@ class Salesforce::ColumnTest < ActiveSupport::TestCase
     assert_equal "2012-01-02T18:40:00-08:00", Salesforce::Column.to_csv_value(Time.zone.parse('2012-01-02 06:40PM'))
     assert_equal "1", Salesforce::Column.to_csv_value(1)
     assert_equal "1.0", Salesforce::Column.to_csv_value(1.0)
-    assert_equal "1.04", Salesforce::Column.to_csv_value(BigDecimal.new("1.04"))
+    assert_equal "1.04", Salesforce::Column.to_csv_value(BigDecimal("1.04"))
     assert_equal "col", Salesforce::Column.to_csv_value(:col)
   end
 
