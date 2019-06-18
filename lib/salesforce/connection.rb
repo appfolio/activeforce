@@ -11,13 +11,13 @@ module Salesforce
     include HttpMethods
     include Conversion
     include Async
-    
+
     def self.as_logged_in_user(&block)
-      count = 0 
+      count = 0
       begin
         Salesforce::Authentication.session_id
         block.call
-      rescue RestClient::Request::Unauthorized, Savon::SOAP::Fault => e
+      rescue RestClient::Unauthorized, Savon::SOAP::Fault => e
         if count < 1 && (e.message.downcase.include?("unauthorized") || e.message.downcase.include?("invalid_login"))
           count += 1
           Salesforce::Config.on_login_failure
@@ -27,7 +27,7 @@ module Salesforce
           raise e
         end
       end
-    
+
     end
   end
 end
