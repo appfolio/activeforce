@@ -1,7 +1,7 @@
 language: ruby
 rvm:
+  - 2.6.3
   - 2.3.3
-  - 2.2.3
   - ruby-head
 
 sudo: false
@@ -9,10 +9,14 @@ sudo: false
 matrix:
   allow_failures:
     - rvm: ruby-head
+  exclude:
+    - rvm: 2.3.3
+      gemfile: gemfiles/6.0.gemfile
+    - rvm: ruby-head
+      gemfile: gemfiles/4.2.gemfile
 
 gemfile:
-  - gemfiles/4.0.gemfile
-  - gemfiles/4.1.gemfile
   - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
   - gemfiles/5.2.gemfile
+  - gemfiles/6.0.gemfile

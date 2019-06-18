@@ -1,7 +1,7 @@
 module Salesforce
   class Column
     attr_accessor :name, :original_name, :createable, :updateable, :type
-    
+
     SUPPORTED_DATE_RANGE =  Date.parse("1700-01-01")..Date.parse("4000-12-31")
     SUPPORTED_TIME_RANGE =  Time.parse("1902-01-01 00:00:00 UTC")..Time.parse("2037-12-31 00:00:00 UTC")
 
@@ -100,7 +100,7 @@ module Salesforce
           end
         when :double
           begin
-            BigDecimal(value.to_s)
+            value.to_s.to_d
           rescue
             value if value.is_a?(Numeric)
           end
