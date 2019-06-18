@@ -9,6 +9,9 @@ sudo: false
 matrix:
   allow_failures:
     - rvm: ruby-head
+  exclude:
+    - rvm: 2.3.3
+      gemfile: gemfiles/6.0.gemfile
 
 gemfile:
   - gemfiles/4.2.gemfile
