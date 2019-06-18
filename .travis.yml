@@ -12,11 +12,8 @@ matrix:
   exclude:
     - rvm: 2.3.3
       gemfile: gemfiles/6.0.gemfile
-    - rvm: ruby-head
-      gemfile: gemfiles/4.2.gemfile
 
 gemfile:
-  - gemfiles/4.2.gemfile
   - gemfiles/5.0.gemfile
   - gemfiles/5.2.gemfile
   - gemfiles/6.0.gemfile
