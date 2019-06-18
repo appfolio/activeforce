@@ -15,14 +15,14 @@ require 'activeforce'
 Dir.glob(File.expand_path('../../app/models/salesforce/**.rb', __FILE__)).each { |file| require(file) }
 
 require 'mocha/setup'
-
+Mocha::Configuration.prevent(:stubbing_non_existent_method)
 
 Time.zone = 'America/Los_Angeles'
 
 class ActiveSupport::TestCase
   setup :clean_configuration
   setup :stub_soap
-  
+
   class ::Salesforce::BulkTable < Salesforce::Base
     self.custom_object = true
   end
@@ -30,50 +30,50 @@ class ActiveSupport::TestCase
   def clean_configuration
     Salesforce::Config.instance_variable_set(:@instance, nil)
   end
-  
+
   def stub_soap
-    Savon::Client.any_instance.stubs(:request)
+    Mocha::Configuration.allow(:stubbing_non_existent_method) do
+      Savon::Client.any_instance.stubs(:request)
+    end
   end
-  
+
   def clear_columns_for_bulk_table
     Salesforce::BulkTable.cached_columns   = nil
   end
-  
+
   def clear_columns_for_account
     Salesforce::Account.cached_columns   = nil
   end
-  
+
   def setup_columns_for_bulk_table
     clear_columns_for_bulk_table
-    columns_hash = [ 
-      { "name" => "Id", "type" => "id", "createable" => false, "updateable" => false}, 
-      { "name" => "Account__c", "type" => "reference", "createable" => true, "updateable" => false, "custom" => true }, 
+    columns_hash = [
+      { "name" => "Id", "type" => "id", "createable" => false, "updateable" => false},
+      { "name" => "Account__c", "type" => "reference", "createable" => true, "updateable" => false, "custom" => true },
       { "name" => "Car__c", "type" => "reference", "createable" => false, "updateable" => true, "custom" => true},
       { "name" => "Name__c", "type" => "string", "createable" => true, "updateable" => true, "custom" => true},
-      { "name" => "dob__c", "type" => "date", "createable" => true, "updateable" => true, "custom" => true} 
+      { "name" => "dob__c", "type" => "date", "createable" => true, "updateable" => true, "custom" => true}
     ]
-    
+
     Salesforce.connection.stubs(:fields).with("BulkTable__c").returns(columns_hash).twice
     columns      = Salesforce::Columns.new("BulkTable__c")
     assert_equal columns, Salesforce::BulkTable.columns
   end
-  
+
   def setup_columns_for_account
     clear_columns_for_account
-    columns_hash = [ 
-      { "name" => "Id", "type" => "id", "createable" => false, "updateable" => false}, 
-      { "name" => "Name", "type" => "string", "createable" => true, "updateable" => true}, 
-      { "name" => "Type", "type" => "string", "createable" => true, "updateable" => true}, 
-      { "name" => "Address", "type" => "string", "createable" => true, "updateable" => true}, 
-      { "name" => "City", "type" => "string", "createable" => true, "updateable" => true}, 
+    columns_hash = [
+      { "name" => "Id", "type" => "id", "createable" => false, "updateable" => false},
+      { "name" => "Name", "type" => "string", "createable" => true, "updateable" => true},
+      { "name" => "Type", "type" => "string", "createable" => true, "updateable" => true},
+      { "name" => "Address", "type" => "string", "createable" => true, "updateable" => true},
+      { "name" => "City", "type" => "string", "createable" => true, "updateable" => true},
       { "name" => "State", "type" => "string", "createable" => true, "updateable" => true},
       { "name" => "Number", "type" => "string", "createable" => true, "updateable" => false}
     ]
-    
+
     Salesforce.connection.stubs(:fields).with("Account").returns(columns_hash).twice
     columns      = Salesforce::Columns.new("Account")
     assert_equal columns, Salesforce::Account.columns
   end
-  
-  
 end
