@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = "2.0.3"
   s.summary          = "A Simple gem to interact with the Salesforce REST API"
 
-  s.add_dependency(%q<rails>, [">= 4.0", "< 6"])
+  s.add_dependency(%q<rails>, [">= 4.2", "< 6.1"])
   s.add_dependency(%q<savon>, ["~> 1.0"])
   s.add_dependency(%q<blockenspiel>, [">= 0"])
   s.add_dependency(%q<rest-client>, [">= 0", '< 2.0'])
