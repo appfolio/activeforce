@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors          = ["Tushar Ranka", "Andrew Mutz"]
   s.date             = "2013-08-27"
   s.description      = " Activeforce provides a simple to use and extend interface to Salesforce using the REST API"
-  s.email            = ["tusharranka@gmail.com", "andrew.mutz@appfolio.com"]
+  s.email            = ["andrew.mutz@appfolio.com"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.md"
