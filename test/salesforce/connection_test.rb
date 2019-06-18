@@ -145,4 +145,10 @@ class Salesforce::ConnectionTest < ActiveSupport::TestCase
   def test_convert
     assert_equal "str", Salesforce.connection.convert("str", {})
   end
+
+  private
+
+  def my_method
+    # Defined so it can be stubbed in a test
+  end
 end
