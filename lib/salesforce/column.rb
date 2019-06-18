@@ -100,9 +100,7 @@ module Salesforce
           end
         when :double
           begin
-            BigDecimal(value.to_s)
-          rescue ArgumentError
-            BigDecimal('0')
+            value.to_s.to_d
           rescue
             value if value.is_a?(Numeric)
           end
