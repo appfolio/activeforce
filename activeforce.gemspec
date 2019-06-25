@@ -25,6 +25,6 @@ Gem::Specification.new do |s|
   s.add_dependency(%q<rails>, [">= 4.2", "< 6.1"])
   s.add_dependency(%q<savon>, ["~> 2.11"])
   s.add_dependency(%q<blockenspiel>, [">= 0"])
-  s.add_dependency(%q<rest-client>, [">= 0", '< 2.0'])
+  s.add_dependency(%q<rest-client>, ["~> 2.0"])
 end
 
